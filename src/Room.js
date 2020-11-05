@@ -11,13 +11,14 @@ const opts = {
   width: '640',
   playerVars: {
     // https://developers.google.com/youtube/player_parameters
-    autoplay: 0,
+    autoplay: 1,
   },
 };
 
 const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
+
   const [videoList, setVideoList] = useState([]);
   const [url, setUrl] = useState('');
   const [nowPlayId, setNowPlayId] = useState('');
@@ -53,6 +54,11 @@ const Room = ({ roomName, token, handleLogout }) => {
       setVideoList(videoList.slice(1));
       setNowPlayId(videoList[0].videoId);
     }
+  };
+
+  const skipNowVideo = () => {
+    setVideoList(videoList.slice(1));
+    setNowPlayId(videoList[0].videoId);
   };
 
   // video chatting useEffect
@@ -120,6 +126,7 @@ const Room = ({ roomName, token, handleLogout }) => {
           ''
         )}
       </div>
+
       <div>
         {videoList.map((video) => (
           <p key={video.id}>{video.title}</p>
@@ -130,7 +137,9 @@ const Room = ({ roomName, token, handleLogout }) => {
           placeholder="동영상 링크를 입력하세요."
         />
         <button onClick={onPushToList}>제출</button>
+        <button onClick={skipNowVideo}>다음 영상</button>
       </div>
+
       <h3>Remote Participants</h3>
       <div className="remote-participants">{remoteParticipants}</div>
     </div>

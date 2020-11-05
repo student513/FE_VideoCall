@@ -21,6 +21,7 @@ const Room = ({ roomName, token, handleLogout }) => {
   const [videoList, setVideoList] = useState([]);
   const [url, setUrl] = useState('');
   const [nowPlayId, setNowPlayId] = useState('');
+  const [showPlayer, setShowPlayer] = useState(false);
   const nextId = useRef(0);
 
   const onChangeUrl = (e) => {
@@ -28,6 +29,7 @@ const Room = ({ roomName, token, handleLogout }) => {
   };
 
   const onPushToList = () => {
+    setShowPlayer(true);
     const videoId = getVideoId(url).id;
     getVideoTitle(videoId, function (err, title) {
       setVideoList((prevInfo) => [
@@ -38,6 +40,7 @@ const Room = ({ roomName, token, handleLogout }) => {
     setUrl('');
   };
 
+  // youtube useEffect
   useEffect(() => {
     if (videoList.length) {
       setNowPlayId(videoList[0].videoId);
@@ -47,11 +50,12 @@ const Room = ({ roomName, token, handleLogout }) => {
   const onPlayerStateChange = (e) => {
     if (e.data === 0) {
       console.log('video ended!!');
+      setVideoList(videoList.slice(1));
       setNowPlayId(videoList[0].videoId);
-      setVideoList(videoList.shift());
     }
   };
 
+  // video chatting useEffect
   useEffect(() => {
     const participantConnected = (participant) => {
       setParticipants((prevParticipants) => [...prevParticipants, participant]);
@@ -96,7 +100,7 @@ const Room = ({ roomName, token, handleLogout }) => {
   return (
     <div className="room">
       <button onClick={handleLogout}>Log out</button>
-      {videoList.length > 0 ? (
+      {showPlayer ? (
         <YouTube
           videoId={nowPlayId}
           opts={opts}
@@ -117,8 +121,8 @@ const Room = ({ roomName, token, handleLogout }) => {
         )}
       </div>
       <div>
-        {videoList.map((videoInfo) => (
-          <p key={videoInfo.id}>{videoInfo.title}</p>
+        {videoList.map((video) => (
+          <p key={video.id}>{video.title}</p>
         ))}
         <input
           value={url}

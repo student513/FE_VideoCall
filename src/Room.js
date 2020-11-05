@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Video from 'twilio-video';
 import Participant from './Participant';
 import YouTube from 'react-youtube';
@@ -18,27 +18,38 @@ const opts = {
 const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
-  const [videoInfoList, setVideoInfoList] = useState([]);
+  const [videoList, setVideoList] = useState([]);
   const [url, setUrl] = useState('');
-
+  const [nowPlayId, setNowPlayId] = useState('');
   const nextId = useRef(0);
 
   const onChangeUrl = (e) => {
     setUrl(e.target.value);
   };
+
   const onPushToList = () => {
     const videoId = getVideoId(url).id;
     getVideoTitle(videoId, function (err, title) {
-      console.log(err);
-      console.log(title);
-      setVideoInfoList((prevInfo) => [
+      setVideoList((prevInfo) => [
         ...prevInfo,
-        { url, videoId, title, id: nextId.current++ },
+        { videoId, title, id: nextId.current++ },
       ]);
     });
-
-    console.log(videoInfoList);
     setUrl('');
+  };
+
+  useEffect(() => {
+    if (videoList.length) {
+      setNowPlayId(videoList[0].videoId);
+    }
+  }, [videoList]);
+
+  const onPlayerStateChange = (e) => {
+    if (e.data === 0) {
+      console.log('video ended!!');
+      setNowPlayId(videoList[0].videoId);
+      setVideoList(videoList.shift());
+    }
   };
 
   useEffect(() => {
@@ -85,7 +96,16 @@ const Room = ({ roomName, token, handleLogout }) => {
   return (
     <div className="room">
       <button onClick={handleLogout}>Log out</button>
-      <YouTube videoId="2g811Eo7K8U" opts={opts} />
+      {videoList.length > 0 ? (
+        <YouTube
+          videoId={nowPlayId}
+          opts={opts}
+          onStateChange={onPlayerStateChange}
+        />
+      ) : (
+        <div />
+      )}
+
       <div className="local-participant">
         {room ? (
           <Participant
@@ -97,7 +117,7 @@ const Room = ({ roomName, token, handleLogout }) => {
         )}
       </div>
       <div>
-        {videoInfoList.map((videoInfo) => (
+        {videoList.map((videoInfo) => (
           <p key={videoInfo.id}>{videoInfo.title}</p>
         ))}
         <input

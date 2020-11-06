@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Video from 'twilio-video';
 import Participant from './Participant';
 import YouTube from 'react-youtube';
+import Drawer from './component/Drawer';
 
 const getVideoId = require('get-video-id');
 const getVideoTitle = require('get-youtube-title');
@@ -18,6 +19,7 @@ const opts = {
 const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   const [videoList, setVideoList] = useState([]);
   const [url, setUrl] = useState('');
@@ -126,7 +128,7 @@ const Room = ({ roomName, token, handleLogout }) => {
           ''
         )}
       </div>
-
+      <Drawer />
       <div>
         {videoList.map((video) => (
           <p key={video.id}>{video.title}</p>

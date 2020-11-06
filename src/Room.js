@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Video from 'twilio-video';
 import Participant from './Participant';
 import YouTube from 'react-youtube';
 import Drawer from './component/Drawer';
-
-const getVideoId = require('get-video-id');
-const getVideoTitle = require('get-youtube-title');
+import { useObserver } from 'mobx-react';
+import useStore from './useStore';
 
 const opts = {
   height: '390',
@@ -17,49 +16,26 @@ const opts = {
 };
 
 const Room = ({ roomName, token, handleLogout }) => {
+  const { videoListStore } = useStore();
+
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
 
-  const [videoList, setVideoList] = useState([]);
-  const [url, setUrl] = useState('');
-  const [nowPlayId, setNowPlayId] = useState('');
-  const [showPlayer, setShowPlayer] = useState(false);
-  const nextId = useRef(0);
-
-  const onChangeUrl = (e) => {
-    setUrl(e.target.value);
+  const popVideoList = () => {
+    videoListStore.popVideoList();
   };
-
-  const onPushToList = () => {
-    setShowPlayer(true);
-    const videoId = getVideoId(url).id;
-    getVideoTitle(videoId, function (err, title) {
-      setVideoList((prevInfo) => [
-        ...prevInfo,
-        { videoId, title, id: nextId.current++ },
-      ]);
-    });
-    setUrl('');
+  const setNowPlayId = (videoId) => {
+    videoListStore.setNowPlayId(videoId);
   };
-
-  // youtube useEffect
-  useEffect(() => {
-    if (videoList.length) {
-      setNowPlayId(videoList[0].videoId);
-    }
-  }, [videoList]);
 
   const onPlayerStateChange = (e) => {
     if (e.data === 0) {
       console.log('video ended!!');
-      setVideoList(videoList.slice(1));
-      setNowPlayId(videoList[0].videoId);
+      popVideoList();
+      if (videoListStore.videoList.length) {
+        setNowPlayId(videoListStore.videoList[0].videoId);
+      }
     }
-  };
-
-  const skipNowVideo = () => {
-    setVideoList(videoList.slice(1));
-    setNowPlayId(videoList[0].videoId);
   };
 
   // video chatting useEffect
@@ -104,12 +80,12 @@ const Room = ({ roomName, token, handleLogout }) => {
     <Participant key={participant.sid} participant={participant} />
   ));
 
-  return (
+  return useObserver(() => (
     <div className="room">
       <button onClick={handleLogout}>Log out</button>
-      {showPlayer ? (
+      {videoListStore.showPlayer ? (
         <YouTube
-          videoId={nowPlayId}
+          videoId={videoListStore.nowPlayId}
           opts={opts}
           onStateChange={onPlayerStateChange}
         />
@@ -128,23 +104,10 @@ const Room = ({ roomName, token, handleLogout }) => {
         )}
       </div>
       <Drawer />
-      <div>
-        {videoList.map((video) => (
-          <p key={video.id}>{video.title}</p>
-        ))}
-        <input
-          value={url}
-          onChange={onChangeUrl}
-          placeholder="동영상 링크를 입력하세요."
-        />
-        <button onClick={onPushToList}>제출</button>
-        <button onClick={skipNowVideo}>다음 영상</button>
-      </div>
-
       <h3>Remote Participants</h3>
       <div className="remote-participants">{remoteParticipants}</div>
     </div>
-  );
+  ));
 };
 
 export default Room;

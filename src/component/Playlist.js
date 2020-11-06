@@ -1,46 +1,46 @@
-import React, { useState, useRef, useEffect } from 'react';
-
+import React, { useState, useRef } from 'react';
+import { useObserver } from 'mobx-react';
+import useStore from '../useStore';
 const getVideoId = require('get-video-id');
 const getVideoTitle = require('get-youtube-title');
 
 const Playlist = () => {
-  const [videoList, setVideoList] = useState([]);
+  const { videoListStore } = useStore();
   const [url, setUrl] = useState('');
-  const [nowPlayId, setNowPlayId] = useState('');
-  const [showPlayer, setShowPlayer] = useState(false);
   const nextId = useRef(0);
 
+  const pushVideoList = (videoId, title, id) => {
+    videoListStore.pushVideoList(videoId, title, id);
+  };
+  const setNowPlayId = (videoId) => {
+    videoListStore.setNowPlayId(videoId);
+  };
+  const popVideoList = () => {
+    videoListStore.popVideoList();
+  };
   const onChangeUrl = (e) => {
     setUrl(e.target.value);
   };
 
   const onPushToList = () => {
-    setShowPlayer(true);
+    videoListStore.setShowPlayer(true);
     const videoId = getVideoId(url).id;
     getVideoTitle(videoId, function (err, title) {
-      setVideoList((prevInfo) => [
-        ...prevInfo,
-        { videoId, title, id: nextId.current++ },
-      ]);
+      pushVideoList(videoId, title, nextId.current++);
     });
     setUrl('');
   };
 
-  // youtube useEffect
-  useEffect(() => {
-    if (videoList.length) {
-      setNowPlayId(videoList[0].videoId);
-    }
-  }, [videoList]);
-
   const skipNowVideo = () => {
-    setVideoList(videoList.slice(1));
-    setNowPlayId(videoList[0].videoId);
+    popVideoList();
+    if (videoListStore.videoList.length) {
+      setNowPlayId(videoListStore.videoList[0].videoId);
+    }
   };
 
-  return (
+  return useObserver(() => (
     <div>
-      {videoList.map((video) => (
+      {videoListStore.videoList.map((video) => (
         <p key={video.id}>{video.title}</p>
       ))}
       <input
@@ -51,7 +51,7 @@ const Playlist = () => {
       <button onClick={onPushToList}>제출</button>
       <button onClick={skipNowVideo}>다음 영상</button>
     </div>
-  );
+  ));
 };
 
 export default Playlist;

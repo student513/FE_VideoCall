@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
+import Playlist from './Playlist';
 
 const useStyles = makeStyles({
   list: {
@@ -33,12 +34,10 @@ export default function TemporaryDrawer() {
       className={clsx(classes.list, {
         [classes.fullList]: anchor === 'top' || anchor === 'bottom',
       })}
-      role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}>
+      role="presentation">
       <p>참여자/채팅</p>
       <Divider />
-      <p>재생목록</p>
+      <Playlist />
     </div>
   );
 

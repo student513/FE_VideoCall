@@ -19,7 +19,6 @@ const opts = {
 const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
-  const [showSidebar, setShowSidebar] = useState(false);
 
   const [videoList, setVideoList] = useState([]);
   const [url, setUrl] = useState('');

@@ -23,7 +23,7 @@ const videoListStore = observable({
     }
   },
   popVideoList() {
-    if (this.videoList.length) {
+    if (this.videoList.length > 1) {
       this.videoList = this.videoList.slice(1);
     }
   },

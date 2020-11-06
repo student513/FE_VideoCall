@@ -1,0 +1,8 @@
+div > input {
+  display: block;
+  width: 100%;
+  font-size: 16px;
+  padding: 0.2em;
+  border-radius: 6px;
+  border: 1px solid #f5efef;
+}

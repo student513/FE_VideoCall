@@ -35,9 +35,13 @@ export default function TemporaryDrawer() {
         [classes.fullList]: anchor === 'top' || anchor === 'bottom',
       })}
       role="presentation">
-      <p>참여자/채팅</p>
+      <div style={styles.divider}>채팅</div>
       <Divider />
-      <Playlist />
+      <div style={styles.divider}>재생목록</div>
+      <Divider />
+      <div style={styles.container}>
+        <Playlist />
+      </div>
     </div>
   );
 
@@ -52,3 +56,15 @@ export default function TemporaryDrawer() {
     </div>
   );
 }
+
+const styles = {
+  container: {
+    backgroundColor: '#fff',
+  },
+  divider: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: 10,
+  },
+};

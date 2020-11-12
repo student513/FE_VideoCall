@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import Lobby from './Lobby';
 import Room from './Room';
-import BaseApi from './helper/api';
 
 const VideoChat = () => {
   const [username, setUsername] = useState('');
@@ -16,27 +15,24 @@ const VideoChat = () => {
     setRoomName(event.target.value);
   }, []);
 
-  const handleSubmit = useCallback(
-    async (event) => {
-      event.preventDefault();
-      const data = await fetch('/video/token', {
-        method: 'POST',
-        body: JSON.stringify({
-          identity: username,
-          room: roomName,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }).then((res) => res.json());
-      setToken(data.token);
-    },
-    [roomName, username]
-  );
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = await fetch('/video/token', {
+      method: 'POST',
+      body: JSON.stringify({
+        identity: username,
+        room: roomName,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => res.json());
+    setToken(data.token);
+  };
 
-  const handleLogout = useCallback((event) => {
+  const handleLogout = (event) => {
     setToken(null);
-  }, []);
+  };
 
   useEffect(() => {
     console.log(token);

@@ -11,18 +11,13 @@ const videoListStore = observable({
   setNowPlayId(videoId) {
     this.nowPlayId = videoId;
   },
-  pushVideoList(videoId, title, id) {
-    this.videoList.push({
-      videoId,
-      title,
-      id,
-    });
+  pushVideoList(videoInfo) {
+    this.videoList.push(videoInfo);
     if (this.videoList.length) {
-      this.setNowPlayId(this.videoList[0].videoId);
-      console.log(this.videoList);
+      this.setNowPlayId(this.videoList[0].id);
     }
   },
-  popVideoList() {
+  dequeueVideoList() {
     if (this.videoList.length > 1) {
       this.videoList = this.videoList.slice(1);
     }

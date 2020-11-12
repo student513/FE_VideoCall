@@ -6,23 +6,11 @@ import Divider from '@material-ui/core/Divider';
 import Playlist from './Playlist';
 import './Drawer.css';
 
-const useStyles = makeStyles({
-  list: {
-    width: 250,
-  },
-  fullList: {
-    width: 'auto',
-  },
-});
-
 export default function TemporaryDrawer() {
   const [showDrawer, setShowDrawer] = useState(false);
 
   const toggleDrawer = (open) => (event) => {
-    if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
+    if (event.type === 'keydown' && ['Tab', 'Shift'].includes(event.key)) {
       return;
     }
     setShowDrawer(open);

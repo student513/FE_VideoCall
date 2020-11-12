@@ -21,8 +21,8 @@ const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
 
-  const popVideoList = () => {
-    videoListStore.popVideoList();
+  const dequeueVideoList = () => {
+    videoListStore.dequeueVideoList();
   };
   const setNowPlayId = (videoId) => {
     videoListStore.setNowPlayId(videoId);
@@ -30,10 +30,9 @@ const Room = ({ roomName, token, handleLogout }) => {
 
   const onPlayerStateChange = (e) => {
     if (e.data === 0) {
-      console.log('video ended!!');
-      popVideoList();
+      dequeueVideoList();
       if (videoListStore.videoList.length) {
-        setNowPlayId(videoListStore.videoList[0].videoId);
+        setNowPlayId(videoListStore.videoList[0].id);
       }
     }
   };
@@ -61,7 +60,7 @@ const Room = ({ roomName, token, handleLogout }) => {
 
     return () => {
       setRoom((currentRoom) => {
-        if (currentRoom && currentRoom.localParticipant.state === 'connected') {
+        if (currentRoom?.localParticipant.state === 'connected') {
           currentRoom.localParticipant.tracks.forEach((trackPublication) => {
             trackPublication.track.stop();
           });

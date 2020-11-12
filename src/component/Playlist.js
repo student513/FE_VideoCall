@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useObserver } from 'mobx-react';
 import getVideoId from 'get-video-id';
 import getVideoTitle from 'get-youtube-title';
@@ -8,34 +8,34 @@ import './Playlist.css';
 const Playlist = () => {
   const { videoListStore } = useStore();
   const [url, setUrl] = useState('');
-  const nextId = useRef(0);
 
-  const pushVideoList = (videoId, title, id) => {
-    videoListStore.pushVideoList(videoId, title, id);
+  const pushVideoList = (videoInfo) => {
+    videoListStore.pushVideoList(videoInfo);
   };
   const setNowPlayId = (videoId) => {
     videoListStore.setNowPlayId(videoId);
   };
-  const popVideoList = () => {
-    videoListStore.popVideoList();
+  const dequeueVideoList = () => {
+    videoListStore.dequeueVideoList();
   };
   const onChangeUrl = (e) => {
     setUrl(e.target.value);
   };
 
   const onPushToList = () => {
-    videoListStore.setShowPlayer(true);
-    const videoId = getVideoId(url).id;
-    getVideoTitle(videoId, function (err, title) {
-      pushVideoList(videoId, title, nextId.current++);
+    videoListStore.setShowPlayer();
+    const id = getVideoId(url).id;
+    getVideoTitle(id, function (err, title) {
+      const videoInfo = { id, title };
+      pushVideoList(videoInfo);
     });
     setUrl('');
   };
 
   const skipNowVideo = () => {
-    popVideoList();
+    dequeueVideoList();
     if (videoListStore.videoList.length) {
-      setNowPlayId(videoListStore.videoList[0].videoId);
+      setNowPlayId(videoListStore.videoList[0].id);
     }
   };
 
@@ -43,7 +43,7 @@ const Playlist = () => {
     <div className="titleContainer">
       {videoListStore.videoList.map((video) => (
         <div className="videoTitle" key={video.id}>
-          {video.title}
+          {video.id}
         </div>
       ))}
       <input

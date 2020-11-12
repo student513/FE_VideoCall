@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { useObserver } from 'mobx-react';
+import getVideoId from 'get-video-id';
+import getVideoTitle from 'get-youtube-title';
 import useStore from '../useStore';
 import './Playlist.css';
-const getVideoId = require('get-video-id');
-const getVideoTitle = require('get-youtube-title');
 
 const Playlist = () => {
   const { videoListStore } = useStore();
@@ -40,17 +40,17 @@ const Playlist = () => {
   };
 
   return useObserver(() => (
-    <div style={styles.container}>
+    <div className="titleContainer">
       {videoListStore.videoList.map((video) => (
-        <div className="videoTitle" key={video.id} style={styles.videoTitle}>
+        <div className="videoTitle" key={video.id}>
           {video.title}
         </div>
       ))}
       <input
+        className="urlInput"
         value={url}
         onChange={onChangeUrl}
         placeholder="동영상 링크를 입력하세요."
-        style={{ backgroundColor: '#F5EFEF', marginBottom: 5 }}
       />
       <button onClick={onPushToList}>제출</button>
       <button onClick={skipNowVideo}>다음 영상</button>
@@ -59,17 +59,3 @@ const Playlist = () => {
 };
 
 export default Playlist;
-
-const styles = {
-  container: {
-    padding: 15,
-  },
-  videoTitle: {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-    width: 230,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-};

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Playlist from './Playlist';
+import './Drawer.css';
 
 const useStyles = makeStyles({
   list: {
@@ -16,7 +16,6 @@ const useStyles = makeStyles({
 });
 
 export default function TemporaryDrawer() {
-  const classes = useStyles();
   const [showDrawer, setShowDrawer] = useState(false);
 
   const toggleDrawer = (open) => (event) => {
@@ -29,17 +28,13 @@ export default function TemporaryDrawer() {
     setShowDrawer(open);
   };
 
-  const list = (anchor) => (
-    <div
-      className={clsx(classes.list, {
-        [classes.fullList]: anchor === 'top' || anchor === 'bottom',
-      })}
-      role="presentation">
-      <div style={styles.divider}>채팅</div>
+  const list = () => (
+    <div role="presentation">
+      <div className="divider">채팅</div>
       <Divider />
-      <div style={styles.divider}>재생목록</div>
+      <div className="divider">재생목록</div>
       <Divider />
-      <div style={styles.container}>
+      <div className="listContainer">
         <Playlist />
       </div>
     </div>
@@ -47,24 +42,12 @@ export default function TemporaryDrawer() {
 
   return (
     <div>
-      <React.Fragment key="right">
+      <React.Fragment>
         <Button onClick={toggleDrawer(true)}>사이드바</Button>
         <Drawer anchor="right" open={showDrawer} onClose={toggleDrawer(false)}>
-          {list('right')}
+          {list()}
         </Drawer>
       </React.Fragment>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    backgroundColor: '#fff',
-  },
-  divider: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    padding: 10,
-  },
-};

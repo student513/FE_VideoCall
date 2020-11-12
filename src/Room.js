@@ -40,11 +40,11 @@ const Room = ({ roomName, token, handleLogout }) => {
 
   // video chatting useEffect
   useEffect(() => {
-    const participantConnected = (participant) => {
+    const connectParticipant = (participant) => {
       setParticipants((prevParticipants) => [...prevParticipants, participant]);
     };
 
-    const participantDisconnected = (participant) => {
+    const disconnectParticipant = (participant) => {
       setParticipants((prevParticipants) =>
         prevParticipants.filter((p) => p !== participant)
       );
@@ -54,17 +54,15 @@ const Room = ({ roomName, token, handleLogout }) => {
       name: roomName,
     }).then((room) => {
       setRoom(room);
-      room.on('participantConnected', participantConnected);
-      room.on('participantDisconnected', participantDisconnected);
-      room.participants.forEach(participantConnected);
+      room.on('participantConnected', connectParticipant);
+      room.on('participantDisconnected', disconnectParticipant);
+      room.participants.forEach(connectParticipant);
     });
 
     return () => {
       setRoom((currentRoom) => {
         if (currentRoom && currentRoom.localParticipant.state === 'connected') {
-          currentRoom.localParticipant.tracks.forEach(function (
-            trackPublication
-          ) {
+          currentRoom.localParticipant.tracks.forEach((trackPublication) => {
             trackPublication.track.stop();
           });
           currentRoom.disconnect();

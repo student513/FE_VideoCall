@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useObserver } from 'mobx-react';
 import getVideoId from 'get-video-id';
 import getVideoTitle from 'get-youtube-title';
@@ -8,6 +8,7 @@ import './Playlist.css';
 const Playlist = () => {
   const { videoListStore } = useStore();
   const [url, setUrl] = useState('');
+  const nextId = useRef(0);
 
   const pushVideoList = (videoInfo) => {
     videoListStore.pushVideoList(videoInfo);
@@ -23,15 +24,15 @@ const Playlist = () => {
   };
 
   const onPushToList = () => {
-    const id = getVideoId(url).id;
-    if (!id) {
+    const videoId = getVideoId(url).id;
+    if (!videoId) {
       alert('유효하지 않은 url입니다!');
       setUrl('');
       return;
     }
     videoListStore.setShowPlayer();
-    getVideoTitle(id, function (err, title) {
-      const videoInfo = { id, title };
+    getVideoTitle(videoId, function (err, title) {
+      const videoInfo = { videoId, title, id: nextId.current++ };
       pushVideoList(videoInfo);
     });
     setUrl('');
@@ -40,7 +41,7 @@ const Playlist = () => {
   const skipNowVideo = () => {
     dequeueVideoList();
     if (videoListStore.videoList.length) {
-      setNowPlayId(videoListStore.videoList[0].id);
+      setNowPlayId(videoListStore.videoList[0].videoId);
     }
   };
 
@@ -52,7 +53,7 @@ const Playlist = () => {
     <div className="titleContainer">
       {videoListStore.videoList.map((video) => (
         <div className="videoTitle" key={video.id}>
-          {video.id}
+          {video.title}
         </div>
       ))}
       <input

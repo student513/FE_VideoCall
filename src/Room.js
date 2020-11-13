@@ -32,7 +32,7 @@ const Room = ({ roomName, token, handleLogout }) => {
     if (e.data === 0) {
       dequeueVideoList();
       if (videoListStore.videoList.length) {
-        setNowPlayId(videoListStore.videoList[0].id);
+        setNowPlayId(videoListStore.videoList[0].videoId);
       }
     }
   };

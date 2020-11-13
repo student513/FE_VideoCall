@@ -26,6 +26,7 @@ const Playlist = () => {
     const id = getVideoId(url).id;
     if (!id) {
       alert('유효하지 않은 url입니다!');
+      setUrl('');
       return;
     }
     videoListStore.setShowPlayer();
@@ -43,6 +44,10 @@ const Playlist = () => {
     }
   };
 
+  const inputUrl = (e) => {
+    if (e.key === 'Enter') onPushToList();
+  };
+
   return useObserver(() => (
     <div className="titleContainer">
       {videoListStore.videoList.map((video) => (
@@ -55,6 +60,7 @@ const Playlist = () => {
         value={url}
         onChange={onChangeUrl}
         placeholder="동영상 링크를 입력하세요."
+        onKeyPress={inputUrl}
       />
       <button onClick={onPushToList}>제출</button>
       <button onClick={skipNowVideo}>다음 영상</button>

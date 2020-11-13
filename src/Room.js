@@ -31,6 +31,7 @@ const Room = ({ roomName, token, handleLogout }) => {
   const onPlayerStateChange = (e) => {
     if (e.data === 0) {
       dequeueVideoList();
+      setNowPlayId(null);
       if (videoListStore.videoList.length) {
         setNowPlayId(videoListStore.videoList[0].videoId);
       }

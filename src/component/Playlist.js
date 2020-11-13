@@ -23,8 +23,12 @@ const Playlist = () => {
   };
 
   const onPushToList = () => {
-    videoListStore.setShowPlayer();
     const id = getVideoId(url).id;
+    if (!id) {
+      alert('유효하지 않은 url입니다!');
+      return;
+    }
+    videoListStore.setShowPlayer();
     getVideoTitle(id, function (err, title) {
       const videoInfo = { id, title };
       pushVideoList(videoInfo);

@@ -31,7 +31,7 @@ const Room = ({ roomName, token, handleLogout }) => {
   const onPlayerStateChange = (e) => {
     if (e.data === 0) {
       dequeueVideoList();
-      setNowPlayId(null);
+      setNowPlayId(null); // dequeue 이후 동일 videoId가 입력될 경우 영상이 넘어가지 않음
       if (videoListStore.videoList.length) {
         setNowPlayId(videoListStore.videoList[0].videoId);
       }

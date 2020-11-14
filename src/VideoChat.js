@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import Lobby from './Lobby';
 import Room from './Room';
+import { postUser } from './helper/api';
 
 const VideoChat = () => {
   const [username, setUsername] = useState('');
@@ -17,16 +18,7 @@ const VideoChat = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = await fetch('/video/token', {
-      method: 'POST',
-      body: JSON.stringify({
-        identity: username,
-        room: roomName,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then((res) => res.json());
+    const data = await postUser(username, roomName);
     setToken(data.token);
   };
 

@@ -1,0 +1,23 @@
+.urlInput {
+  display: block;
+  width: 230px;
+  font-size: 16px;
+  padding: 0.2em;
+  border-radius: 6px;
+  border: 1px solid #f5efef;
+  background-color: #f5efef;
+  margin-bottom: 5px;
+}
+
+.titleContainer {
+  padding: 15px;
+}
+
+.videoTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 230px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Video from 'twilio-video';
 import Participant from './Participant';
 import YouTube from 'react-youtube';
+import Drawer from './component/Drawer';
+import { useObserver } from 'mobx-react';
+import useStore from './useStore';
 
 const opts = {
   height: '390',
@@ -9,37 +12,57 @@ const opts = {
   playerVars: {
     // https://developers.google.com/youtube/player_parameters
     autoplay: 1,
-  }
-}
+  },
+};
 
 const Room = ({ roomName, token, handleLogout }) => {
+  const { videoListStore } = useStore();
+
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
 
+  const dequeueVideoList = () => {
+    videoListStore.dequeueVideoList();
+  };
+  const setNowPlayId = (videoId) => {
+    videoListStore.setNowPlayId(videoId);
+  };
+
+  const onPlayerStateChange = (e) => {
+    if (e.data === 0) {
+      dequeueVideoList();
+      setNowPlayId(null); // dequeue 이후 동일 videoId가 입력될 경우 영상이 넘어가지 않음
+      if (videoListStore.videoList.length) {
+        setNowPlayId(videoListStore.videoList[0].videoId);
+      }
+    }
+  };
+
+  // video chatting useEffect
   useEffect(() => {
-    const participantConnected = participant => {
-      setParticipants(prevParticipants => [...prevParticipants, participant]);
+    const connectParticipant = (participant) => {
+      setParticipants((prevParticipants) => [...prevParticipants, participant]);
     };
 
-    const participantDisconnected = participant => {
-      setParticipants(prevParticipants =>
-        prevParticipants.filter(p => p !== participant)
+    const disconnectParticipant = (participant) => {
+      setParticipants((prevParticipants) =>
+        prevParticipants.filter((p) => p !== participant)
       );
     };
 
     Video.connect(token, {
-      name: roomName
-    }).then(room => {
+      name: roomName,
+    }).then((room) => {
       setRoom(room);
-      room.on('participantConnected', participantConnected);
-      room.on('participantDisconnected', participantDisconnected);
-      room.participants.forEach(participantConnected);
+      room.on('participantConnected', connectParticipant);
+      room.on('participantDisconnected', disconnectParticipant);
+      room.participants.forEach(connectParticipant);
     });
 
     return () => {
-      setRoom(currentRoom => {
-        if (currentRoom && currentRoom.localParticipant.state === 'connected') {
-          currentRoom.localParticipant.tracks.forEach(function(trackPublication) {
+      setRoom((currentRoom) => {
+        if (currentRoom?.localParticipant.state === 'connected') {
+          currentRoom.localParticipant.tracks.forEach((trackPublication) => {
             trackPublication.track.stop();
           });
           currentRoom.disconnect();
@@ -51,15 +74,23 @@ const Room = ({ roomName, token, handleLogout }) => {
     };
   }, [roomName, token]);
 
-  const remoteParticipants = participants.map(participant => (
+  const remoteParticipants = participants.map((participant) => (
     <Participant key={participant.sid} participant={participant} />
   ));
 
-  return (
+  return useObserver(() => (
     <div className="room">
-      <h2>Room: {roomName}</h2>
       <button onClick={handleLogout}>Log out</button>
-      <YouTube videoId="2g811Eo7K8U" opts={opts} />
+      {videoListStore.showPlayer ? (
+        <YouTube
+          videoId={videoListStore.nowPlayId}
+          opts={opts}
+          onStateChange={onPlayerStateChange}
+        />
+      ) : (
+        <div />
+      )}
+
       <div className="local-participant">
         {room ? (
           <Participant
@@ -70,10 +101,11 @@ const Room = ({ roomName, token, handleLogout }) => {
           ''
         )}
       </div>
+      <Drawer />
       <h3>Remote Participants</h3>
       <div className="remote-participants">{remoteParticipants}</div>
     </div>
-  );
+  ));
 };
 
 export default Room;

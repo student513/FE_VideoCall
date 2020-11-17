@@ -2,11 +2,18 @@ import React, { useState, useCallback, useEffect } from 'react';
 import Lobby from './Lobby';
 import Room from './Room';
 import { postUser } from './helper/api';
+import useStore from './useStore';
 
 const VideoChat = () => {
+  const { tokenStore } = useStore();
+
   const [username, setUsername] = useState('');
   const [roomName, setRoomName] = useState('');
   const [token, setToken] = useState(null);
+
+  const setStoreToken = (token) => {
+    tokenStore.setStoreToken(token);
+  };
 
   const handleUsernameChange = useCallback((event) => {
     setUsername(event.target.value);
@@ -27,7 +34,8 @@ const VideoChat = () => {
   };
 
   useEffect(() => {
-    console.log(token);
+    console.log('token:', token);
+    setStoreToken(token);
   });
 
   if (token) {

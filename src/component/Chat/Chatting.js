@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import MessageForm from './MessageForm';
 import MessageList from './MessageList';
 import TwilioChat from 'twilio-chat';
+import useStore from '../../useStore';
 import $ from 'jquery';
 
 const Chatting = () => {
+  const { tokenStore } = useStore();
+
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState(null);
   const [channel, setChannel] = useState(null);
@@ -18,18 +21,9 @@ const Chatting = () => {
   const addMessage = (message) => {
     const messageData = { ...message, me: message.author === username };
     setMessages({
-      messages: [...messages, messageData],
+      ...messages,
+      messages: messageData,
     });
-  };
-
-  const getToken = async () => {
-    addMessage({ body: 'Connecting...' });
-    const jsonToken = await $.getJSON('/token', (token) =>
-      setUsername(token.identity)
-    ).fail(() =>
-      addMessage({ body: `Error: Failed to connect. Turn on server` })
-    );
-    return jsonToken;
   };
 
   const createChatClient = async (token) => {
@@ -81,8 +75,7 @@ const Chatting = () => {
   };
 
   useEffect(() => {
-    getToken()
-      .then(createChatClient)
+    createChatClient(tokenStore.token) //mobx로부터 token get
       .then(joinGeneralChannel)
       .then(configureChannelEvents)
       .catch((error) => {

@@ -1,19 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './MessageForm.css';
 
 const MessageForm = (onMessageSend) => {
+  const [message, setMessage] = useState('');
+  const inputRef = useRef(null);
+
   useEffect(() => {
-    this.input.focus();
+    inputRef.current.focus();
   });
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    onMessageSend(this.input.value);
-    this.input.value = '';
+    onMessageSend(message);
+    setMessage('');
   };
   return (
     <form className="MessageForm" onSubmit={handleFormSubmit}>
       <div className="input-container">
-        <input type="text" ref={(node) => (this.input = node)} />
+        <input type="text" ref={inputRef} value={message} />
       </div>
       <div className="button-container">
         <button type="submit">Send</button>

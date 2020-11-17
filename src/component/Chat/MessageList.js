@@ -8,8 +8,8 @@ const MessageList = (messages) => {
   });
   return (
     <div className="MessageList" ref={(node) => (this.node = node)}>
-      {this.props.messages.map((message, i) => (
-        <Message key={i} {...message} />
+      {messages.map((message, index) => (
+        <Message key={index} {...message} />
       ))}
     </div>
   );

@@ -24,14 +24,14 @@ app.get('/api/greeting', (req, res) => {
   res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
 });
 
-app.get('/video/token', (req, res) => {
+app.get('/token', (req, res) => {
   const identity = req.query.identity;
   const room = req.query.room;
   const token = videoToken(identity, room, config);
   sendTokenResponse(token, res);
 });
 
-app.post('/video/token', (req, res) => {
+app.post('/token', (req, res) => {
   const identity = req.body.identity;
   const room = req.body.room;
   const token = videoToken(identity, room, config);

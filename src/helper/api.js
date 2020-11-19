@@ -1,5 +1,5 @@
 export const postUser = (username, roomName) =>
-  fetch('/video/token', {
+  fetch('/token', {
     method: 'POST',
     body: JSON.stringify({
       identity: username,

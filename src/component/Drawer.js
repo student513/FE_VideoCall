@@ -3,6 +3,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Playlist from './Playlist';
+import Chatting from './chatting/Chatting';
 import './Drawer.css';
 
 export default function TemporaryDrawer() {
@@ -18,6 +19,10 @@ export default function TemporaryDrawer() {
   const list = () => (
     <div role="presentation">
       <div className="divider">채팅</div>
+      <Divider />
+      <div className="chatContainer">
+        <Chatting />
+      </div>
       <Divider />
       <div className="divider">재생목록</div>
       <Divider />

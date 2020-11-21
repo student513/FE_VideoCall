@@ -3,7 +3,6 @@
 }
 
 .messageContainer {
-    background-color: aqua;
     height: 190px;
     overflow-y: scroll;
     width: 230px;
@@ -12,7 +11,7 @@
 }
 
 .messageContainer::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
+    display: none; /* 스크롤바 숨기기*/
 }
 
 .inputContainer {

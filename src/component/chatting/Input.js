@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-
+import './Input.css'
 const Input = ({onSendMessage}) => {
   const [text, setText] = useState("")
   const onChange = (e) => {
@@ -15,11 +15,11 @@ const Input = ({onSendMessage}) => {
       <div className="Input">
         <form onSubmit={onSubmit}>
           <input
+            className="chatInput"
             onChange={onChange}
             value={text}
             type="text"
-            placeholder="Enter your message and press ENTER"
-            autoFocus={true}
+            placeholder="채팅을 시작하세요."
           />
           <button>Send</button>
         </form>

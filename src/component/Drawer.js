@@ -19,14 +19,17 @@ const TemporaryDrawer = () => {
   };
 
   const list = () => (
-    <div role="presentation">
-      <div className="divider">채팅</div>
-      <Divider />
-      <div className="chatContainer">
-        <Chatting roomname={userStore.roomname} username={userStore.username}/>
+    <div className="drawerContainer" role="presentation">
+      <div className="halfSide">
+        {/* height 30px */}
+        <div className="dividerName">채팅</div>
+        <Divider />
+        <div className="chatContainer">
+          <Chatting roomname={userStore.roomname} username={userStore.username}/>
+        </div>
       </div>
       <Divider />
-      <div className="divider">재생목록</div>
+      <div className="dividerName">재생목록</div>
       <Divider />
       <div className="listContainer">
         <Playlist />

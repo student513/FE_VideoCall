@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Messages from "./Messages";
 import Input from "./Input";
+import './Chatting.css'
 
 class Chatting extends Component {
   constructor() {
@@ -48,9 +49,7 @@ class Chatting extends Component {
 
  render() {
   return (
-    <div className="App">
-      <div className="App-header">
-      </div>
+    <div className="chatContainer">
       <Messages
         messages={this.state.messages}
         currentMember={this.state.member}

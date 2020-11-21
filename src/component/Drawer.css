@@ -1,4 +1,4 @@
-.divider {
+.dividerName {
   font-size: 20px;
   font-weight: bold;
   text-align: center;
@@ -7,4 +7,8 @@
 
 .listContainer {
   background-color: #ffffff;
+}
+
+.halfSide {
+  height: 100%;
 }

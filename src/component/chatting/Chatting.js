@@ -1,43 +1,48 @@
 import React, { Component } from 'react';
 import Messages from "./Messages";
 import Input from "./Input";
+import {observer} from 'mobx-react';
+import {userStore} from '../../store/User'
 
-function randomColor() {
-  return '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16);
-}
+@observer
 class Chatting extends Component {
-  state = {
-    messages: [],
-    member: {
-      username: "me",
-      color: randomColor()
-    }
-  }
-
   constructor() {
     super();
-    this.drone = new window.Scaledrone("4XIVBdHRdUL4f4mw", {
-      data: this.state.member
-    });
-    this.drone.on('open', error => {
-      if (error) {
-        return console.error(error);
+    this.state = {
+        messages: [],
+        member: {
+          username: "me",//방에 입장한 identity로 업데이트
+        },
+        drone: null
       }
-      const member = {...this.state.member};
-      member.id = this.drone.clientId;
-      this.setState({member});
-    });
-    const room = this.drone.subscribe("observable-room");
-    room.on('data', (data, member) => {
-      const messages = this.state.messages;
-      messages.push({member, text: data});
-      this.setState({messages});
-    });
+  }
+
+  componentDidMount = () => {
+    const drone = new window.Scaledrone("4XIVBdHRdUL4f4mw", {
+        data: this.state.member
+      });
+      drone.on('open', error => {
+        if (error) {
+          return console.error(error);
+        }
+        const member = {...this.state.member};
+        member.id = drone.clientId;
+        this.setState({member});
+      });
+      const room = drone.subscribe(`observable-${userStore.roomname}`);
+      room.on('data', (data, member) => {
+        const messages = this.state.messages;
+        messages.push({member, text: data});
+        this.setState({messages});
+      });
+      this.setState({drone})
+      console.log(drone)
   }
 
   onSendMessage = (message) => {
-    this.drone.publish({
-      room: "observable-room",
+    this.state.drone.publish({
+        //이게 방을 구분하는건가?
+      room: `observable-${userStore.roomname}`,
       message
     });
   }

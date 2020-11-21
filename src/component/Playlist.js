@@ -51,11 +51,13 @@ const Playlist = () => {
 
   return useObserver(() => (
     <div className="titleContainer">
-      {videoListStore.videoList.map((video) => (
-        <div className="videoTitle" key={video.id}>
-          {video.title}
-        </div>
-      ))}
+      <div className="titleList">
+        {videoListStore.videoList.map((video) => (
+          <div className="videoTitle" key={video.id}>
+            {video.title}
+          </div>
+        ))}
+      </div>
       <input
         className="urlInput"
         value={url}

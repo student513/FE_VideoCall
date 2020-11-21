@@ -21,3 +21,12 @@
   font-weight: bold;
   margin-bottom: 8px;
 }
+
+.titleList {
+  height: 210px;
+  overflow-y: scroll;
+}
+
+.titleList::-webkit-scrollbar {
+  display: none; /* 스크롤바 숨기기*/
+}

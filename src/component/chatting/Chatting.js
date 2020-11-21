@@ -50,13 +50,17 @@ class Chatting extends Component {
  render() {
   return (
     <div className="chatContainer">
-      <Messages
-        messages={this.state.messages}
-        currentMember={this.state.member}
-      />
-      <Input
-        onSendMessage={this.onSendMessage}
-      />
+      <div className="messageContainer">
+        <Messages
+          messages={this.state.messages}
+          currentMember={this.state.member}
+        />
+      </div>
+      <div className="inputContainer">
+        <Input
+          onSendMessage={this.onSendMessage}
+        />
+      </div>
     </div>
   );
 }

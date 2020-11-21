@@ -1,3 +1,20 @@
 .chatContainer {
     padding: 8px;
 }
+
+.messageContainer {
+    background-color: aqua;
+    height: 190px;
+    overflow-y: scroll;
+    width: 230px;
+    /* 줄바꿈 */
+    word-break:break-all 
+}
+
+.messageContainer::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+.inputContainer {
+    padding-top: 10px;
+}

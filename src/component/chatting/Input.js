@@ -21,7 +21,6 @@ const Input = ({onSendMessage}) => {
             type="text"
             placeholder="채팅을 시작하세요."
           />
-          <button>Send</button>
         </form>
       </div>
     );

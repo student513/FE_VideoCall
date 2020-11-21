@@ -7,8 +7,8 @@ import { useObserver } from 'mobx-react';
 import useStore from './useStore';
 
 const opts = {
-  height: '390',
-  width: '640',
+  height: '900',
+  width: '100%',
   playerVars: {
     // https://developers.google.com/youtube/player_parameters
     autoplay: 1,
@@ -79,31 +79,36 @@ const Room = ({ roomName, token, handleLogout }) => {
   ));
 
   return useObserver(() => (
-    <div className="room">
-      <button onClick={handleLogout}>Log out</button>
-      {videoListStore.showPlayer ? (
-        <YouTube
-          videoId={videoListStore.nowPlayId}
-          opts={opts}
-          onStateChange={onPlayerStateChange}
-        />
-      ) : (
-        <div />
-      )}
-
-      <div className="local-participant">
-        {room ? (
-          <Participant
-            key={room.localParticipant.sid}
-            participant={room.localParticipant}
+    <div className="wrapper"> {/*for comlumn(side bar)*/}
+      <div className="room">
+        <button onClick={handleLogout}>Log out</button>
+        {videoListStore.showPlayer ? (
+          <YouTube
+            videoId={videoListStore.nowPlayId}
+            opts={opts}
+            onStateChange={onPlayerStateChange}
           />
         ) : (
-          ''
+          <div className="contentsBlank"/>
         )}
+
+        <h3>Participants</h3>
+        <div className="remote-participants">
+          {room ? (
+            <Participant
+              key={room.localParticipant.sid}
+              participant={room.localParticipant}
+            />
+          ) : (
+            ''
+          )
+          }
+          {remoteParticipants}
+        </div>
       </div>
+      
       <Drawer />
-      <h3>Remote Participants</h3>
-      <div className="remote-participants">{remoteParticipants}</div>
+      
     </div>
   ));
 };

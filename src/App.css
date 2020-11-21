@@ -14,19 +14,6 @@ body {
   min-height: 100%;
 }
 
-header {
-  background: #f0293e;
-  color: #fff;
-  text-align: center;
-  flex-grow: 0;
-  margin-bottom: 2em;
-}
-
-h1 {
-  font-weight: 300;
-  padding: 0.4em 0;
-}
-
 #root {
   min-height: 100vh;
 }
@@ -82,8 +69,15 @@ button:hover {
   filter: brightness(150%);
 }
 
+.wrapper {
+  display: flex;
+  height: 100vh;
+}
+
 .room {
   position: relative;
+  width: 99.99%;
+  height: 80%;
 }
 /* .room button {
   position: absolute;
@@ -94,6 +88,11 @@ button:hover {
   text-align: center;
   font-weight: 300;
   margin-bottom: 1em;
+}
+.contentsBlank {
+  height: 75vh;
+  width: 100%;
+  background: #7f7f7f;
 }
 
 .local-participant {
@@ -124,20 +123,8 @@ button:hover {
 
 video {
   width: 100%;
-  max-width: 600px;
+  max-width: 10vh;
   display: block;
   margin: 0 auto;
   border-radius: 6px;
-}
-
-footer {
-  background: #333e5a;
-  color: #fff;
-  text-align: center;
-  flex-grow: 0;
-  padding: 1em 0;
-}
-
-footer a {
-  color: #fff;
 }

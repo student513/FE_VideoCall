@@ -28,9 +28,9 @@ export default function TemporaryDrawer() {
   );
 
   return (
-    <div>
+    <div className="sideBar" onMouseEnter={toggleDrawer(true)}  >
+      .
       <React.Fragment>
-        <Button onClick={toggleDrawer(true)}>사이드바</Button>
         <Drawer anchor="right" open={showDrawer} onClose={toggleDrawer(false)}>
           {list()}
         </Drawer>

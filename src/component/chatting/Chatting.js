@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import Messages from "./Messages";
 import Input from "./Input";
-import {observer} from 'mobx-react';
-import {userStore} from '../../store/User'
 
-@observer
 class Chatting extends Component {
   constructor() {
     super();
     this.state = {
         messages: [],
         member: {
-          username: "me",//방에 입장한 identity로 업데이트
+          username: "",//방에 입장한 identity로 업데이트
         },
         drone: null
       }
   }
 
   componentDidMount = () => {
+    let newMember = this.state.member
+    newMember.username = this.props.username
+    this.setState({member:newMember})
+
     const drone = new window.Scaledrone("4XIVBdHRdUL4f4mw", {
         data: this.state.member
       });
@@ -29,20 +30,18 @@ class Chatting extends Component {
         member.id = drone.clientId;
         this.setState({member});
       });
-      const room = drone.subscribe(`observable-${userStore.roomname}`);
+      const room = drone.subscribe(`observable-${this.props.roomname}`);
       room.on('data', (data, member) => {
         const messages = this.state.messages;
         messages.push({member, text: data});
         this.setState({messages});
       });
       this.setState({drone})
-      console.log(drone)
   }
 
   onSendMessage = (message) => {
     this.state.drone.publish({
-        //이게 방을 구분하는건가?
-      room: `observable-${userStore.roomname}`,
+      room: `observable-${this.props.roomname}`,
       message
     });
   }

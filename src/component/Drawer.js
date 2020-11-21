@@ -4,9 +4,11 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Playlist from './Playlist';
 import Chatting from './chatting/Chatting';
+import useStore from '../useStore';
 import './Drawer.css';
 
-export default function TemporaryDrawer() {
+const TemporaryDrawer = () => {
+  const { userStore } = useStore();
   const [showDrawer, setShowDrawer] = useState(false);
 
   const toggleDrawer = (open) => (event) => {
@@ -21,7 +23,7 @@ export default function TemporaryDrawer() {
       <div className="divider">채팅</div>
       <Divider />
       <div className="chatContainer">
-        <Chatting />
+        <Chatting roomname={userStore.roomname} username={userStore.username}/>
       </div>
       <Divider />
       <div className="divider">재생목록</div>
@@ -43,3 +45,5 @@ export default function TemporaryDrawer() {
     </div>
   );
 }
+
+export default TemporaryDrawer

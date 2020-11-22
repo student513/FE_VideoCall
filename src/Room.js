@@ -95,16 +95,18 @@ const Room = ({ roomName, token, handleLogout }) => {
             ' '
           )}
         </div>
-        <div className="remote-participants">
-          {room ? (
-            <Participant
-              key={room.localParticipant.sid}
-              participant={room.localParticipant}
-            />
-          ) : (
-            ''
-          )}
-          {remoteParticipants}
+        <div className="participants">
+          <div className="localParticipants">
+            {room ? (
+              <Participant
+                key={room.localParticipant.sid}
+                participant={room.localParticipant}
+              />
+            ) : (
+              ''
+            )}
+          </div>
+          <div className="remoteParticipants">{remoteParticipants}</div>
         </div>
       </div>
       <Drawer />

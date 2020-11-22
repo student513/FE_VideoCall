@@ -19,11 +19,11 @@ export default function MenuDropDown({handleLogout}) {
   
     return (
         <div>
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+            <Button aria-controls="simpleMenu" aria-haspopup="true" onClick={handleClick}>
                 Open Menu
             </Button>
             <Menu
-                id="simple-menu"
+                id="simpleMenu"
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}

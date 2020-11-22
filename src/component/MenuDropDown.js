@@ -5,37 +5,36 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-export default function MenuDropDown({handleLogout}) {
-    //menu drop down
-    const [anchorEl, setAnchorEl] = React.useState(null);
+export default function MenuDropDown({ handleLogout }) {
+  //menu drop down
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const handleClick = (event) => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    };
+  };
 
-    const handleClose = () => {
+  const handleClose = () => {
     setAnchorEl(null);
-    };
-  
-    return (
-        <div>
-            <Button aria-controls="simpleMenu" aria-haspopup="true" onClick={handleClick}>
-                Open Menu
-            </Button>
-            <Menu
-                id="simpleMenu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-            >
-                <MenuItem onClick={handleLogout}>LogOut</MenuItem>
-                {/* <MenuItem onClick={handleClose}>menu2</MenuItem> */}
-                {/* <MenuItem onClick={handleClose}>menu3</MenuItem> */}
-            </Menu>
-        </div>
-    );
+  };
+
+  return (
+    <div>
+      <Button
+        aria-controls="simpleMenu"
+        aria-haspopup="true"
+        onClick={handleClick}>
+        Open Menu
+      </Button>
+      <Menu
+        id="simpleMenu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}>
+        <MenuItem onClick={handleLogout}>LogOut</MenuItem>
+        {/* <MenuItem onClick={handleClose}>menu2</MenuItem> */}
+        {/* <MenuItem onClick={handleClose}>menu3</MenuItem> */}
+      </Menu>
+    </div>
+  );
 }
-  
-
-

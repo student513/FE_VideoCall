@@ -5,7 +5,7 @@ import getVideoTitle from 'get-youtube-title';
 import useStore from '../useStore';
 import './Playlist.css';
 
-const playlistHeight = window.innerHeight / 3
+const playlistHeight = window.innerHeight / 3;
 
 const Playlist = () => {
   const { videoListStore } = useStore();
@@ -53,7 +53,7 @@ const Playlist = () => {
 
   return useObserver(() => (
     <div className="titleContainer">
-      <div className="titleList" style={{height:playlistHeight}} >
+      <div className="titleList" style={{ height: playlistHeight }}>
         {videoListStore.videoList.map((video) => (
           <div className="videoTitle" key={video.id}>
             {video.title}

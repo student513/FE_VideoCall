@@ -8,7 +8,6 @@ const userStore = observable({
     this.username = username;
     this.roomname = roomname;
   },
-  
 });
 
 export { userStore };

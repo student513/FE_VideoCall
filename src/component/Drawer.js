@@ -7,7 +7,7 @@ import Chatting from './chatting/Chatting';
 import useStore from '../useStore';
 import './Drawer.css';
 
-const chattingHeight = window.innerHeight / 2
+const chattingHeight = window.innerHeight / 2;
 
 const TemporaryDrawer = () => {
   const { userStore } = useStore();
@@ -22,12 +22,15 @@ const TemporaryDrawer = () => {
 
   const list = () => (
     <div className="drawerContainer" role="presentation">
-      <div className="halfSide" style={{height: chattingHeight}}>
+      <div className="halfSide" style={{ height: chattingHeight }}>
         {/* height 30px */}
         <div className="dividerName">채팅</div>
         <Divider />
         <div className="chatContainer">
-          <Chatting roomname={userStore.roomname} username={userStore.username}/>
+          <Chatting
+            roomname={userStore.roomname}
+            username={userStore.username}
+          />
         </div>
       </div>
       <Divider />
@@ -49,6 +52,6 @@ const TemporaryDrawer = () => {
       </React.Fragment>
     </div>
   );
-}
+};
 
-export default TemporaryDrawer
+export default TemporaryDrawer;

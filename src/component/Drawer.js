@@ -7,6 +7,8 @@ import Chatting from './chatting/Chatting';
 import useStore from '../useStore';
 import './Drawer.css';
 
+const chattingHeight = window.innerHeight / 2
+
 const TemporaryDrawer = () => {
   const { userStore } = useStore();
   const [showDrawer, setShowDrawer] = useState(false);
@@ -20,7 +22,7 @@ const TemporaryDrawer = () => {
 
   const list = () => (
     <div className="drawerContainer" role="presentation">
-      <div className="halfSide">
+      <div className="halfSide" style={{height: chattingHeight}}>
         {/* height 30px */}
         <div className="dividerName">채팅</div>
         <Divider />

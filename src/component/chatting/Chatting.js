@@ -3,6 +3,8 @@ import Messages from "./Messages";
 import Input from "./Input";
 import './Chatting.css'
 
+const messagesHeight = window.innerHeight / 3
+
 class Chatting extends Component {
   constructor() {
     super();
@@ -50,7 +52,7 @@ class Chatting extends Component {
  render() {
   return (
     <div className="chatContainer">
-      <div className="messageContainer">
+      <div className="messageContainer" style={{height: messagesHeight}}>
         <Messages
           messages={this.state.messages}
           currentMember={this.state.member}

@@ -6,10 +6,10 @@ import Drawer from './component/Drawer';
 import MenuDropDown from './component/MenuDropDown';
 import { useObserver } from 'mobx-react';
 import useStore from './useStore';
-
+import './Room.css';
 
 const opts = {
-  height: (window.innerHeight) * 0.75,
+  height: window.innerHeight * 0.75,
   width: '100%',
   playerVars: {
     // https://developers.google.com/youtube/player_parameters
@@ -81,20 +81,19 @@ const Room = ({ roomName, token, handleLogout }) => {
   ));
 
   return useObserver(() => (
-    <div className="wrapper"> {/*for comlumn(side bar)*/}
+    <div className="wrapper">
       <div className="room">
-        <MenuDropDown handleLogout={handleLogout}/>
+        <MenuDropDown handleLogout={handleLogout} />
         <div className="contentsBlank">
-        {
-        videoListStore.showPlayer ? (
-          <YouTube
-            videoId={videoListStore.nowPlayId}
-            opts={opts}
-            onStateChange={onPlayerStateChange}
-          />
-        ) : (
-          ' '
-        )}
+          {videoListStore.showPlayer ? (
+            <YouTube
+              videoId={videoListStore.nowPlayId}
+              opts={opts}
+              onStateChange={onPlayerStateChange}
+            />
+          ) : (
+            ' '
+          )}
         </div>
         <div className="remote-participants">
           {room ? (
@@ -104,14 +103,11 @@ const Room = ({ roomName, token, handleLogout }) => {
             />
           ) : (
             ''
-          )
-          }
+          )}
           {remoteParticipants}
         </div>
       </div>
-      
       <Drawer />
-      
     </div>
   ));
 };

@@ -3,7 +3,7 @@
 }
 
 .messageContainer {
-  height: 190px;
+  height: 35vh;
   overflow-y: scroll;
   width: 230px;
   /* 줄바꿈 */

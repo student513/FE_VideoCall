@@ -8,3 +8,7 @@
 .listContainer {
   background-color: #ffffff;
 }
+
+.halfSide {
+  height: 50vh;
+}

@@ -3,8 +3,6 @@ import Messages from './Messages';
 import Input from './Input';
 import './Chatting.css';
 
-const messagesHeight = window.innerHeight / 3;
-
 class Chatting extends Component {
   constructor() {
     super();
@@ -18,28 +16,35 @@ class Chatting extends Component {
   }
 
   componentDidMount = () => {
-    let newMember = this.state.member;
+    const newMember = this.state.member;
     newMember.username = this.props.username;
-    this.setState({ member: newMember });
+    this.handleChangeState('member', newMember);
 
-    const drone = new window.Scaledrone('4XIVBdHRdUL4f4mw', {
-      data: this.state.member,
-    });
+    const drone = new window.Scaledrone(
+      process.env.REACT_APP_SCALEDRONE_API_KEY,
+      {
+        data: this.state.member,
+      }
+    );
     drone.on('open', (error) => {
       if (error) {
-        return console.error(error);
+        throw new Error(error);
       }
       const member = { ...this.state.member };
       member.id = drone.clientId;
-      this.setState({ member });
+      this.handleChangeState(member);
     });
     const room = drone.subscribe(`observable-${this.props.roomname}`);
     room.on('data', (data, member) => {
       const messages = this.state.messages;
       messages.push({ member, text: data });
-      this.setState({ messages });
+      this.handleChangeState(messages);
     });
-    this.setState({ drone });
+    this.handleChangeState('drone', drone); //this.handleChangeState(drone); 에러발생
+  };
+
+  handleChangeState = (name, value = undefined) => {
+    value ? this.setState({ [name]: value }) : this.setState({ [name]: name });
   };
 
   onSendMessage = (message) => {
@@ -52,7 +57,7 @@ class Chatting extends Component {
   render() {
     return (
       <div className="chatContainer">
-        <div className="messageContainer" style={{ height: messagesHeight }}>
+        <div className="messageContainer">
           <Messages
             messages={this.state.messages}
             currentMember={this.state.member}

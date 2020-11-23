@@ -5,8 +5,6 @@ import getVideoTitle from 'get-youtube-title';
 import useStore from '../useStore';
 import './Playlist.css';
 
-const playlistHeight = window.innerHeight / 3;
-
 const Playlist = () => {
   const { videoListStore } = useStore();
   const [url, setUrl] = useState('');
@@ -53,7 +51,7 @@ const Playlist = () => {
 
   return useObserver(() => (
     <div className="titleContainer">
-      <div className="titleList" style={{ height: playlistHeight }}>
+      <div className="titleList">
         {videoListStore.videoList.map((video) => (
           <div className="videoTitle" key={video.id}>
             {video.title}
@@ -66,7 +64,7 @@ const Playlist = () => {
         onChange={onChangeUrl}
         placeholder="동영상 링크를 입력하세요."
         onKeyPress={inputUrl}
-        autoFocus={true}
+        autoFocus
       />
       <button onClick={onPushToList}>제출</button>
       <button onClick={skipNowVideo}>다음 영상</button>

@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import Lobby from './Lobby';
 import Room from './Room';
 import { postUser } from './helper/api';
+import './VideoChat.css';
 
 const VideoChat = () => {
   const [username, setUsername] = useState('');
@@ -36,13 +37,15 @@ const VideoChat = () => {
     );
   }
   return (
-    <Lobby
-      username={username}
-      roomName={roomName}
-      handleUsernameChange={handleUsernameChange}
-      handleRoomNameChange={handleRoomNameChange}
-      handleSubmit={handleSubmit}
-    />
+    <div className="lobbyScreen">
+      <Lobby
+        username={username}
+        roomName={roomName}
+        handleUsernameChange={handleUsernameChange}
+        handleRoomNameChange={handleRoomNameChange}
+        handleSubmit={handleSubmit}
+      />
+    </div>
   );
 };
 

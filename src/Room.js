@@ -3,12 +3,14 @@ import Video from 'twilio-video';
 import Participant from './Participant';
 import YouTube from 'react-youtube';
 import Drawer from './component/Drawer';
+import MenuDropDown from './component/MenuDropDown';
 import { useObserver } from 'mobx-react';
 import useStore from './useStore';
+import './Room.css';
 
 const opts = {
-  height: '390',
-  width: '640',
+  height: window.innerHeight * 0.75,
+  width: '100%',
   playerVars: {
     // https://developers.google.com/youtube/player_parameters
     autoplay: 1,
@@ -79,31 +81,35 @@ const Room = ({ roomName, token, handleLogout }) => {
   ));
 
   return useObserver(() => (
-    <div className="room">
-      <button onClick={handleLogout}>Log out</button>
-      {videoListStore.showPlayer ? (
-        <YouTube
-          videoId={videoListStore.nowPlayId}
-          opts={opts}
-          onStateChange={onPlayerStateChange}
-        />
-      ) : (
-        <div />
-      )}
-
-      <div className="local-participant">
-        {room ? (
-          <Participant
-            key={room.localParticipant.sid}
-            participant={room.localParticipant}
-          />
-        ) : (
-          ''
-        )}
+    <div className="wrapper">
+      <div className="room">
+        <MenuDropDown handleLogout={handleLogout} />
+        <div className="contentsBlank">
+          {videoListStore.showPlayer ? (
+            <YouTube
+              videoId={videoListStore.nowPlayId}
+              opts={opts}
+              onStateChange={onPlayerStateChange}
+            />
+          ) : (
+            ' '
+          )}
+        </div>
+        <div className="participants">
+          <div className="localParticipants">
+            {room ? (
+              <Participant
+                key={room.localParticipant.sid}
+                participant={room.localParticipant}
+              />
+            ) : (
+              ''
+            )}
+          </div>
+          <div className="remoteParticipants">{remoteParticipants}</div>
+        </div>
       </div>
       <Drawer />
-      <h3>Remote Participants</h3>
-      <div className="remote-participants">{remoteParticipants}</div>
     </div>
   ));
 };

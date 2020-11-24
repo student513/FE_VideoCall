@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Playlist from './Playlist';
 import Chatting from './chatting/Chatting';
@@ -43,9 +42,9 @@ const TemporaryDrawer = () => {
   );
 
   return (
-    <div>
+    <div className="sideBar" onMouseEnter={toggleDrawer(true)}  >
+      .
       <React.Fragment>
-        <Button onClick={toggleDrawer(true)}>사이드바</Button>
         <Drawer anchor="right" open={showDrawer} onClose={toggleDrawer(false)}>
           {list()}
         </Drawer>

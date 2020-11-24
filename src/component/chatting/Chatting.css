@@ -1,0 +1,19 @@
+.chatContainer {
+  padding: 8px;
+}
+
+.messageContainer {
+  height: 35vh;
+  overflow-y: scroll;
+  width: 230px;
+  /* 줄바꿈 */
+  word-break: break-all;
+}
+
+.messageContainer::-webkit-scrollbar {
+  display: none; /* 스크롤바 숨기기*/
+}
+
+.inputContainer {
+  padding-top: 10px;
+}

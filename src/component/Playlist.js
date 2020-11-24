@@ -51,17 +51,20 @@ const Playlist = () => {
 
   return useObserver(() => (
     <div className="titleContainer">
-      {videoListStore.videoList.map((video) => (
-        <div className="videoTitle" key={video.id}>
-          {video.title}
-        </div>
-      ))}
+      <div className="titleList">
+        {videoListStore.videoList.map((video) => (
+          <div className="videoTitle" key={video.id}>
+            {video.title}
+          </div>
+        ))}
+      </div>
       <input
         className="urlInput"
         value={url}
         onChange={onChangeUrl}
         placeholder="동영상 링크를 입력하세요."
         onKeyPress={inputUrl}
+        autoFocus
       />
       <button onClick={onPushToList}>제출</button>
       <button onClick={skipNowVideo}>다음 영상</button>

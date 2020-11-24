@@ -3,9 +3,12 @@ import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Playlist from './Playlist';
+import Chatting from './chatting/Chatting';
+import useStore from '../useStore';
 import './Drawer.css';
 
-export default function TemporaryDrawer() {
+const TemporaryDrawer = () => {
+  const { userStore } = useStore();
   const [showDrawer, setShowDrawer] = useState(false);
 
   const toggleDrawer = (open) => (event) => {
@@ -16,13 +19,25 @@ export default function TemporaryDrawer() {
   };
 
   const list = () => (
-    <div role="presentation">
-      <div className="divider">채팅</div>
-      <Divider />
-      <div className="divider">재생목록</div>
-      <Divider />
-      <div className="listContainer">
-        <Playlist />
+    <div className="drawerContainer" role="presentation">
+      <div className="halfSide">
+        {/* height 30px */}
+        <div className="dividerName">채팅</div>
+        <Divider />
+        <div className="chatContainer">
+          <Chatting
+            roomname={userStore.roomname}
+            username={userStore.username}
+          />
+        </div>
+      </div>
+      <div className="halfSide">
+        <Divider />
+        <div className="dividerName">재생목록</div>
+        <Divider />
+        <div className="listContainer">
+          <Playlist />
+        </div>
       </div>
     </div>
   );
@@ -37,4 +52,6 @@ export default function TemporaryDrawer() {
       </React.Fragment>
     </div>
   );
-}
+};
+
+export default TemporaryDrawer;

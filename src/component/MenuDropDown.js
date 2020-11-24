@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import Video from 'twilio-video';
-import Participant from '../Participant';
+import React from 'react';
+//import Video from 'twilio-video';
+//import Participant from '../Participant';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Icon from '@material-ui/core/Icon';
 
 export default function MenuDropDown({ handleLogout }) {
   //menu drop down
@@ -18,7 +19,7 @@ export default function MenuDropDown({ handleLogout }) {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <Button
         aria-controls="simpleMenu"
         aria-haspopup="true"
@@ -35,6 +36,6 @@ export default function MenuDropDown({ handleLogout }) {
         {/* <MenuItem onClick={handleClose}>menu2</MenuItem> */}
         {/* <MenuItem onClick={handleClose}>menu3</MenuItem> */}
       </Menu>
-    </div>
+    </React.Fragment>
   );
 }

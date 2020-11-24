@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Playlist from './Playlist';
 import './Drawer.css';

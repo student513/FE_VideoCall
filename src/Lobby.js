@@ -1,14 +1,15 @@
 import React from 'react';
+import './Lobby.css';
 
 const Lobby = ({
   username,
   handleUsernameChange,
   roomName,
   handleRoomNameChange,
-  handleSubmit
+  handleSubmit,
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="lobbyScreen">
       <h2>Enter a room</h2>
       <div>
         <label htmlFor="name">Name:</label>

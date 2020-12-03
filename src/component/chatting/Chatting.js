@@ -7,6 +7,7 @@ class Chatting extends Component {
   constructor() {
     super();
     this.state = {
+      //서버 POST
       messages: [],
       member: {
         username: '', //방에 입장한 identity로 업데이트
@@ -41,6 +42,7 @@ class Chatting extends Component {
       this.handleChangeState(messages);
     });
     this.handleChangeState('drone', drone); //this.handleChangeState(drone); 에러발생
+    console.log('hi');
   };
 
   handleChangeState = (name, value = undefined) => {
@@ -52,6 +54,8 @@ class Chatting extends Component {
       room: `observable-${this.props.roomname}`,
       message,
     });
+    //서버 this.state.messages를 POST
+    //해당 방 이름과 같아야함
   };
 
   render() {

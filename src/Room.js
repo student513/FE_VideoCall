@@ -34,10 +34,14 @@ const Room = ({ roomName, token, handleLogout }) => {
     if (e.data === 0) {
       dequeueVideoList();
       setNowPlayId(null); // dequeue 이후 동일 videoId가 입력될 경우 영상이 넘어가지 않음
+      //서버 GET
       if (videoListStore.videoList.length) {
+        //서버 POST
         setNowPlayId(videoListStore.videoList[0].videoId);
       }
     }
+    // 영상 일시정지 시(1)
+    // 영상 이동 시: 버퍼링(3)?
   };
 
   // video chatting useEffect

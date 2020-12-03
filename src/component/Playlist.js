@@ -30,16 +30,19 @@ const Playlist = () => {
       setUrl('');
       return;
     }
+    //서버
     videoListStore.setShowPlayer();
     getVideoTitle(videoId, function (err, title) {
       const videoInfo = { videoId, title, id: nextId.current++ };
       pushVideoList(videoInfo);
+      //서버 POST
     });
     setUrl('');
   };
 
   const skipNowVideo = () => {
     dequeueVideoList();
+    //서버
     if (videoListStore.videoList.length) {
       setNowPlayId(videoListStore.videoList[0].videoId);
     }
@@ -52,6 +55,7 @@ const Playlist = () => {
   return useObserver(() => (
     <div className="titleContainer">
       <div className="titleList">
+        {/* 서버 GET */}
         {videoListStore.videoList.map((video) => (
           <div className="videoTitle" key={video.id}>
             {video.title}

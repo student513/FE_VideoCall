@@ -22,6 +22,7 @@ const Room = ({ roomName, token, handleLogout }) => {
 
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
+  const [messages, setMessages] = useState([]);
 
   const dequeueVideoList = () => {
     videoListStore.dequeueVideoList();
@@ -113,7 +114,7 @@ const Room = ({ roomName, token, handleLogout }) => {
           <div className="remoteParticipants">{remoteParticipants}</div>
         </div>
       </div>
-      <Drawer />
+      <Drawer messages={messages} />
     </div>
   ));
 };

@@ -7,8 +7,6 @@ class Chatting extends Component {
   constructor() {
     super();
     this.state = {
-      //서버 POST
-      messages: [],
       member: {
         username: '', //방에 입장한 identity로 업데이트
       },
@@ -37,7 +35,7 @@ class Chatting extends Component {
     });
     const room = drone.subscribe(`observable-${this.props.roomname}`);
     room.on('data', (data, member) => {
-      const messages = this.state.messages;
+      const messages = this.props.messages;
       messages.push({ member, text: data });
       this.handleChangeState(messages);
     });
@@ -54,8 +52,6 @@ class Chatting extends Component {
       room: `observable-${this.props.roomname}`,
       message,
     });
-    //서버 this.state.messages를 POST
-    //해당 방 이름과 같아야함
   };
 
   render() {
@@ -63,7 +59,7 @@ class Chatting extends Component {
       <div className="chatContainer">
         <div className="messageContainer">
           <Messages
-            messages={this.state.messages}
+            messages={this.props.messages}
             currentMember={this.state.member}
           />
         </div>

@@ -6,7 +6,7 @@ import Chatting from './chatting/Chatting';
 import useStore from '../useStore';
 import './Drawer.css';
 
-const TemporaryDrawer = () => {
+const TemporaryDrawer = ({ messages }) => {
   const { userStore } = useStore();
   const [showDrawer, setShowDrawer] = useState(false);
 
@@ -25,6 +25,7 @@ const TemporaryDrawer = () => {
         <Divider />
         <div className="chatContainer">
           <Chatting
+            messages={messages}
             roomname={userStore.roomname}
             username={userStore.username}
           />
@@ -42,7 +43,7 @@ const TemporaryDrawer = () => {
   );
 
   return (
-    <div className="sideBar" onMouseEnter={toggleDrawer(true)}  >
+    <div className="sideBar" onMouseEnter={toggleDrawer(true)}>
       .
       <React.Fragment>
         <Drawer anchor="right" open={showDrawer} onClose={toggleDrawer(false)}>
